@@ -2,7 +2,7 @@
 
 # Version of the script
 version=0.1		# Current version
-directory=scr/		# Scripts directory
+directory='scr/'	# Scripts directory
 
 
 # Logo
