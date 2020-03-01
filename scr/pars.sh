@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-# Title: pars
+# Title: pars 
 # Version: 0.1
-# Author: 0ero1ne
-# Description: pars airodump-ng's dump file
-
-#9C:97:26:BD:D0:B3, 2020-02-19 20:05:18, 2020-02-19 20:05:18,  1, 130, WPA2 WPA, CCMP TKIP, PSK, -84,        1,        0,   0.  0.  0.  0,  11, TNCAPBDD0B3, 
+# Author: 0ero1ne 
+# Description: airodump-ng parser 
 
 sudo airodump-ng wlan0mon
 

@@ -2,7 +2,7 @@
 
 # Title: cc
 # Version: 0.1
-# Author: 0ero1ne
+# Author: 0ero1ne 
 # Description: change interface's channel
 
 if [ $# -eq 2 ]; then

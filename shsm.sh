@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Title: shsm
+# Version: 0.1
+# Author: 0ero1ne 
+# Description: Shell Script Manager
+
 # Version of the script
 version=0.1		# Current version
 directory='scr/'	# Scripts directory
@@ -26,6 +31,7 @@ package_list () {
 	for file in $directory/*; do
 		printf "%15s |%s\n" "$(basename $file .sh)" "$(awk -F: 'NR==6 {print $2}' $file)"
 	done
+	echo
 }
 
 

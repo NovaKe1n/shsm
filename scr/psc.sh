@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Title: psc
+# Title: psc 
 # Version: 0.1
-# Author: 0ero1ne
+# Author: 0ero1ne 
 # Description: check if a process is running
 
 help() { printf "[X] %s %s\n" "$0" "<process name>"; exit 1; }

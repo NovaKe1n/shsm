@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-# Title: aut0pwn
+# Title: aut0pwn.sh
 # Version: 0.1
 # Author: 0ero1ne
-# Description: wifi network pwner
+# Description: deauth every AP's clients
 
 #TODO
 #Check if I can use case instead of if
-
-# Description: lol
 
 #Check if running as root
 if [ "$EUID" -ne 0 ]; then

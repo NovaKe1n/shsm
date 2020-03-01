@@ -2,8 +2,8 @@
 
 # Title: sleepauth
 # Version: 0.1
-# Author: 0ero1ne
-# Description: attack a BSSID
+# Author: 0ero1ne 
+# Description: deauth AP's clients with timeout
 
 if [[ $# -eq 4 ]]; then
 	while true; do

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Title: netup
+# Title: netup 
 # Version: 0.1
-# Author: 0ero1ne
-# Description: disable monitor mode
+# Author: 0ero1ne 
+# Description: stop monitor mode
 
 if [[ $# -eq 1 && $EUID -eq 0 ]]; then
 	interface=$1

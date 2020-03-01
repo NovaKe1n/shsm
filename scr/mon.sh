@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Title: mon
+# Title: mon 
 # Version: 0.1
-# Author: 0ero1ne
-# Description: set adapter on monitor mode
+# Author: 0ero1ne 
+# Description: activate monitor mode
 
 if [[ $# -eq 1 ]]; then
 	printf "%s\n" "[*] Killing processes..."
@@ -13,4 +13,3 @@ if [[ $# -eq 1 ]]; then
 else
 	printf "%s\n" "[X] ./mon.sh <interface>"
 fi
-
