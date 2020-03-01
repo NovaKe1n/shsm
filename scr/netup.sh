@@ -4,6 +4,8 @@
 # Version: 0.1
 # Author: 0ero1ne 
 # Description: stop monitor mode
+# Description: stop monitor mode
+# Description: stop monitor mode
 
 if [[ $# -eq 1 && $EUID -eq 0 ]]; then
 	interface=$1
