@@ -7,7 +7,8 @@
 
 
 # TODO
-#   - todo example
+#   - check for errors
+#	- 
 
 
 # Global variables
@@ -41,8 +42,8 @@ $0 <parameter>
   -l, --list			list all scripts
   -s, --search <keyword>	search script using a keyword
   -i, --info 			view script info
-  -h, --help			help and usage
-  -v, --version			current version of the script
+  -h, --help			print this help
+  -v, --version			current version
 
 """
 	exit 0
@@ -55,13 +56,10 @@ script_list ()
 {
 	for file in $directory/*; do
 		printf "%15s |%s\n" "$(basename $file .sh)" "$(awk -F: 'NR==6 {print $2}' $file)"
-	done
-
-	echo
+	done; echo
 
 	exit 0
 }
-
 
 
 # search script by keyword
@@ -90,7 +88,7 @@ script_search()
 script_info ()
 {
 	# check if arg is not empty
-	[ -z "$1" ] && printf "[error] missing search parameter\n" && exit 1
+	[ -z "$1" ] && printf "[error] missing script name\n" && exit 1
 
 	# check if file is exist and is a regular file
 	[ ! -f "$directory/${1}.sh" ] && printf "[error] file not found\n" && exit 1
