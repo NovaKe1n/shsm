@@ -15,6 +15,7 @@
 version=0.1
 directory='scr'
 
+red=\033[
 
 
 # logo
@@ -51,11 +52,18 @@ $0 <parameter>
 
 
 
-# list function to output all script inside scr.
+# list function to output all script inside scr
 script_list ()
 {
 	for file in $directory/*; do
-		printf "%15s |%s\n" "$(basename $file .sh)" "$(awk -F: 'NR==6 {print $2}' $file)"
+		
+		printf "%15s | " "$(basename $file .sh)" 
+
+		if [ -z "$(awk -F: 'NR==6 {gsub(/^[ \t]+/,"",$2); print $2}' $file)" ]; then
+			printf "** No description **\n" 
+		else 
+			printf "$(awk -F: 'NR==6 {gsub(/^[ \t]+/,"",$2); print $2}' $file)\n"
+		fi
 	done; echo
 
 	exit 0
@@ -71,9 +79,10 @@ script_search()
 
 	for file in $directory/*; do
 		if sed -n '3,6p' $file | grep -q $1; then	
-			return_code=0
 			printf "%s%s\n" "${file%%.*}" "$(awk -F: 'NR==4 {print $2}' $file)" 
 			printf "%s\n\n" "$(awk -F: 'NR==6 {print $2}' $file)"
+			
+			return_code=0
 		fi
 	done
 	
@@ -84,7 +93,7 @@ script_search()
 
 
 
-# retrive script's info
+# retrive script info
 script_info ()
 {
 	# check if arg is not empty

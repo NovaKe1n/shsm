@@ -3,7 +3,7 @@
 # Title: dotbak 
 # Version: 0.1
 # Author: 0ero1ne 
-# Description: backup all .dotfiles
+# Description: backup all dotfiles
 
 gitdir='/home/null/Github/mothership/.dotfiles'
 

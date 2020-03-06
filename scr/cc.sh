@@ -3,7 +3,7 @@
 # Title: cc
 # Version: 0.1
 # Author: 0ero1ne 
-# Description: change interface's channel
+# Description: change channel on interface   
 
 if [ $# -eq 2 ]; then
 	printf "[*] Changing channel on interface $1...\n"

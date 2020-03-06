@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Title: 
+# Title: color
 # Version: 0.1
 # Author: 0ero1ne 
-# Description: 
+# Description:
 
 # Init
 
