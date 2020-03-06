@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Title: 
-# Version: 0.1
+# Title: shsh
+# Version: 0.2
 # Author: 0ero1ne 
-# Description: 
+# Description: Shell Script Manager 
 
 
 # TODO
