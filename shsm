@@ -21,7 +21,7 @@ red=\033[
 # logo
 logo () 
 { 
-	printf "\n%15s | %s\n\n" "[$0]" "[v$version]"
+	printf "\n%15s - %s\n\n" "[$(basename $0)]" "[v$version]"
 }
 
 
