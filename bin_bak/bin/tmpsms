@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+#title|tmpsms
+#version|0.1
+#author|0ero1ne
+#info|parsers for receive-smss.com for temp phone numbers
+
+function usage()
+{
+	printf """
+\t\t[Temp Sms]
+
+Usage:
+$0 -l
+$0 -o PHONE_NUMBER MAX_LINES
+
+[Arguments]		[Description]
+-l 			print all the numbers available
+-o PHONE_NUMBER		open the webpage using links
+   MAX_LINES		maximum lines to show
+
+"""
+exit 1
+}
+
+
+function number_list()
+{
+	printf "Available numbers: \n\n"
+
+		curl https://receive-smss.com/ -s \
+			| grep -A10 "/sms/" \
+			| grep -E -- '<h4|<h5' \
+			| sed 's/^[^>]*>//g' \
+			| sed 's/.\{5\}$//' \
+			| tac \
+			| awk -v col=2 '{if(NR%col){printf "%s ",$0 }else {printf "%s\n",$0}} '
+		echo
+}
+	
+#OBSOLETE
+function check_message()
+{
+	printf "Checking messages for: $number\n\n"
+
+	curl https://receive-smss.com/sms/$number/ -s \
+		| sed -n -e '/<tbody>/,/tbody/ p' \
+		| sed 's/^[^>]*>//g' \
+       		| sed 's/<.*>//' \
+		| sed -r '/^\s*$/d' \
+		| while read line; do
+			if [[ $line =~ "ago" ]]; then printf "$line\n\n\n";
+			else printf "$line\n"; fi
+		done \
+		| head -n $msg
+}
+
+function message_check()
+{
+	links -dump https://receive-smss.com/sms/$number/ \
+	| tail -n +48 \
+	| head -n -36 \
+	| head -n $msg
+}
+
+number=""
+msg=""
+
+[ -z "$1" ] && usage
+
+case $1 in
+	-l) number_list ;;
+	-o) 
+		[[ -z $2 ]] && usage
+		if [[ ${#2} -ne 12 ]] && ! [[ $1 =~ ^[0-9]+$ ]]; then usage; else number=$2; fi
+		if [[ -z $3 ]]; then msg=300; else msg=$3; fi
+		message_check 
+		;;
+	*) usage ;;
+esac
+
+#${#var}
+
