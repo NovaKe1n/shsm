@@ -1,0 +1,91 @@
+#!/usr/bin/bash
+
+#title|corona
+#version|0.1
+#author|0ero1ne
+#info|coronavirus updater parser from https://corona-stats.online
+
+
+# TODO
+#   - todo example
+
+
+# Global variables
+version=0.1
+
+
+# full status
+full ()
+{
+	curl -s "https://corona-stats.online/?source=2&minimal=true"
+}
+
+
+#location function
+location ()
+{
+	[ -z "$1" ] && usage
+	curl -s "https://corona-stats.online/${1}?source=2&minimal=true"
+
+	exit 0
+}
+
+# world function
+world ()
+{
+		curl -s "https://corona-stats.online?source=2&minimal=true" | egrep 'World'	
+		
+		exit 0
+}
+
+
+# usage
+usage ()
+{
+	printf """
+$0 [options] [location]
+
+Options:
+  -a --all		display full status
+  -l --location		location status
+  -w --world		world current status
+
+  -h --help		help and usage
+  -v --version		current version of the script
+
+"""
+	exit 0
+}
+
+
+# version
+version ()
+{
+	printf "$0 $version\n"
+}
+
+
+# arg_parser
+arg_parser ()
+{
+	# Check if there is no argument and if true show usage and exit 1
+	[ $# -eq 0 ] && usage exit 1
+
+	# Cycle all the arguments 
+	for args in $@
+	do
+		# Parse each argument to its function and set 
+		case $args in
+			-a|-all)		full					;;
+			-l|--location)	location "$2"; shift 2	;;
+			-w|--world)		world	 				;;
+			-h|--help)      usage					;;
+			-v|--version) 	version 				;;
+			*)				usage					;;
+		esac
+	done
+}
+
+
+# Init
+arg_parser "$@"
