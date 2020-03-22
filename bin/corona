@@ -13,11 +13,29 @@
 # Global variables
 version=0.1
 
+#pdf
+pdf ()
+{
+	wkhtmltopdf "https://corona-stats.online/?source=2" ~/Documents/corona_update/corona_status_full.pdf
+	nohup qpdfview ~/Documents/corona_update/corona_status_full.pdf &>/dev/null &
+}
+
+
+# send mail
+mailcorona () {
+	wkhtmltopdf "https://corona-stats.online/?source=2" ~/Documents/corona_update/corona_status_full.pdf
+	python ~/Github/shsm/bin/coronaNews.py
+	libreoffice --convert-to pdf:writer_pdf_Export --outdir ~/Documents/corona_update/ ~/Documents/corona_update/news
+	mutt -s "[$(date)] Covid-19 update" -b corona -a ~/Documents/corona_update/corona_status_full.pdf ~/Documents/corona_update/news.pdf -- < ~/Documents/corona_update/message
+}
+
 
 # full status
 full ()
 {
 	curl -s "https://corona-stats.online/?source=2&minimal=true"
+
+	exit 0
 }
 
 
@@ -43,11 +61,13 @@ world ()
 usage ()
 {
 	printf """
-$0 [options] [location]
+$(basename $0) [options] [location]
 
 Options:
   -a --all		display full status
   -l --location		location status
+  -m --mail		send a pdf via email to Bcc list
+  -p --pdf		download update as pdf and open it
   -w --world		world current status
 
   -h --help		help and usage
@@ -61,7 +81,7 @@ Options:
 # version
 version ()
 {
-	printf "$0 $version\n"
+	printf "$(basename $0) $version\n"
 }
 
 
@@ -76,8 +96,10 @@ arg_parser ()
 	do
 		# Parse each argument to its function and set 
 		case $args in
-			-a|-all)		full					;;
+			-a|--all)		full					;;
 			-l|--location)	location "$2"; shift 2	;;
+			-m|--mail)		mailcorona				;;
+			-p|--pdf)		pdf						;;
 			-w|--world)		world	 				;;
 			-h|--help)      usage					;;
 			-v|--version) 	version 				;;
