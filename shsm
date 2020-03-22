@@ -1,25 +1,23 @@
 #!/usr/bin/env bash
 
 #title|shsh
-#version|0.3
+#version|0.4
 #author|0ero1ne 
 #info|Shell Script Manager 
 
 
 # TODO
-#   - check for errors
-#	- 
+#   -  
 
 
 # Global variables
-version=0.1
-script_dir='bin'
+version=0.4
+#script_dir='bin'
 
-red=\033[
-
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/bin"
 
 # logo
-logo () 
+header () 
 { 
 	printf "\n%15s - %s\n\n" "[$(basename $0)]" "[v$version]"
 }
@@ -29,7 +27,7 @@ logo ()
 # version
 version ()
 {
-	printf "$0 $version\n"
+	printf "$(basename $0) $version\n"
 }
 
 
@@ -37,8 +35,7 @@ version ()
 # usage
 usage ()
 {
-	printf """
-$0 <parameter> 
+	printf """Usage: $(basename $0) [options] [package/keyword]
 
   -l, --list			list all scripts
   -s, --search <keyword>	search script using a keyword
@@ -58,7 +55,7 @@ script_list ()
 	# iterate each file into the binaries folder and output the basename
 	# grep the info line to show script's description
 	for file in $script_dir/*; do
-		printf "%-10s | " "$(basename $file)"
+		printf "%-15s | " "$(basename $file)"
 		printf "%-8s | " "$(awk -F'/' 'NR==1 {print $NF}' $file)"
 		printf "%s\n" "$(egrep -m 1 '#info' $file | cut -d'|' -f2)"
 	done; echo;
@@ -75,10 +72,10 @@ script_search()
 	[ -z "$1" ] && printf "[error] missing search parameter\n" && exit 1
 
 	for file in $script_dir/*; do
-		if sed -n '3,6p' $file | grep -q $1; then	
-			printf "%s%s\n" "${file%%.*}" "$(awk -F: 'NR==4 {print $2}' $file)" 
-			printf "%s\n\n" "$(awk -F: 'NR==6 {print $2}' $file)"
-			
+		if [ "$(egrep -m 1 '#info' $file | egrep $1)" ]; then
+			printf "[%s]\n" "$(basename $file)"
+			printf "  %s\n" "$(egrep -m 1 '#info' $file | egrep $1 | awk -F'|' '{print $2}')" 
+
 			return_code=0
 		fi
 	done
@@ -99,9 +96,6 @@ script_info ()
 	# check if file exist and is a regular file
 	[ ! -f "$script_dir/${1}" ] && printf "[error] file not found\n\n" && exit 1
 
-	# extract the information from the file
-	#awk -F: 'NR==3,NR==6 {printf "%15s |%s\n", substr($1,3), $2}' $script_dir/${1}.sh
-	
 	# egrep check for the first value and if finds it will ouput
 	# if no patterns are found will return blank
 	printf "%15s | %s\n" "title" "$(egrep -m 1 '#title' $script_dir/${1} | cut -d'|' -f2)"
@@ -126,9 +120,9 @@ arg_parser ()
 	do
 		# Parse each argument to its function and set 
 		case $args in
-			-l | --list) 	logo; 	script_list						;;
-			-s | --search)	logo; 	script_search	"$2" ; shift 2	;;
-			-i | --info)	logo;	script_info		"$2" ; shift 2	;;
+			-l | --list) 	header; script_list						;;
+			-s | --search)	header; script_search	"$2" ; shift 2	;;
+			-i | --info)	header;	script_info		"$2" ; shift 2	;;
 			-h | --help)			usage							;;
 			-v | --version) 		version 						;;
 			*)						usage							;;

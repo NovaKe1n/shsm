@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/bash
 
 #title|alive
 #version|1.0
@@ -8,7 +8,7 @@
 printf "\n[*] Scanning local network...\n"
 
 for ip in $(seq 255); do
-  ping -c 1 -W 0 192.168.1.$ip &> /dev/null
+  ping -c 1 -W 0.1 192.168.1.$ip &> /dev/null
   if [ $? -eq 0 ]; then 
     echo "[-] 192.168.1.$ip is alive"
   #else

@@ -1,8 +1,8 @@
-#!/usr/local/bin/bash
+#!/usr/bin/bash
 
 #title|geo
-#author|0ero1ne
 #version|1.0
+#author|0ero1ne
 #info|shows geo location informations and DNS server
 
 # Alternative
