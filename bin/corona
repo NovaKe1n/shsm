@@ -24,7 +24,7 @@ pdf ()
 # send mail
 mailcorona () {
 	wkhtmltopdf "https://corona-stats.online/?source=2" ~/Documents/corona_update/corona_status_full.pdf
-	python ~/Github/shsm/bin/coronaNews.py
+	python ~/Github/shsm/bin/coronaNews
 	libreoffice --convert-to pdf:writer_pdf_Export --outdir ~/Documents/corona_update/ ~/Documents/corona_update/news
 	mutt -s "[$(date)] Covid-19 update" -b corona -a ~/Documents/corona_update/corona_status_full.pdf ~/Documents/corona_update/news.pdf -- < ~/Documents/corona_update/message
 }
