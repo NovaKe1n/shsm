@@ -7,4 +7,4 @@
 
 mac=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | tr a-z A-Z)
 
-printf "\n${Green}Random MAC: ${NC}%s\n\n" "$mac"
+printf "${Green}Random MAC: ${NC}%s\n" "$mac"
