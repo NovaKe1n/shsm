@@ -18,12 +18,12 @@ key=''
 while [ -z $key ];
 do
 	# Ping
-	ping -c 1 -t 1 -W 1000 $server > /dev/null 2>&1
+	ping -c 1 -W 1000 $server > /dev/null 2>&1
 
 	# Check if server is reachable
 	if [[ "$?" -eq 0 ]]; then
 		# Parse output
-		data=$(ping -c 1 -s 20 -t 1 $server | cut -f 4 -d '=' | head -n 2 | tail -n 1)
+		data=$(ping -c 1 -s 20 $server | cut -f 4 -d '=' | head -n 2 | tail -n 1)
 		printf "${Green}%10s ${Red}| ${Yellow}%s       \r" "Speed" "$data"
 	else
 		# Error message
