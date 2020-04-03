@@ -16,7 +16,8 @@ version=0.4
 # Script's absolute path
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/bin"
 
-# logo
+
+# 
 header () 
 { 
 	printf "\n%15s - %s\n\n" "[$(basename $0)]" "[v$version]"
@@ -32,16 +33,16 @@ version ()
 
 
 
-# usage
-usage ()
+# Help manual
+helpme ()
 {
 	printf """Usage: $(basename $0) [options] [package/keyword]
 
-  -l, --list			list all scripts
+  -l, --list				list all scripts
   -s, --search <keyword>	search script using a keyword
-  -i, --info 			view script info
-  -h, --help			print this help
-  -v, --version			current version
+  -i, --info 				view script info
+  -h, --help				print this help
+  -v, --version				current version
 
 """
 	exit 0
@@ -113,7 +114,7 @@ script_info ()
 arg_parser ()
 {
 	# Check if there is no argument and if true show usage and exit 1
-	[ $# -eq 0 ] && usage exit 1
+	[ $# -eq 0 ] && helpme exit 1
 
 	# Cycle all the arguments 
 	for args in $@
@@ -122,10 +123,10 @@ arg_parser ()
 		case $args in
 			-l | --list) 	header; script_list						;;
 			-s | --search)	header; script_search	"$2" ; shift 2	;;
-			-i | --info)	header;	script_info		"$2" ; shift 2	;;
-			-h | --help)			usage							;;
-			-v | --version) 		version 						;;
-			*)						usage							;;
+			-i | --info)	header; script_info		"$2" ; shift 2	;;
+			-h | --help)			helpme							;;
+			-v | --version) 		helpme	 						;;
+			*)						helpme							;;
 		esac
 	done
 }
