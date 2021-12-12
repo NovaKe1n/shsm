@@ -12,9 +12,16 @@ version=0.4.1
 
 
 
-# Script's absolute path
-# Don't add any / at the end
-script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/bin"
+# script absolute path
+# you need to write the whole path
+# e.g: /home/ubuntu/bin
+script_dir=""
+
+# if script_dir is empty then use ssm's path
+if [ -z "$script_dir" ]; then
+    script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+fi
+
 
 # Check if the path exist
 if [ ! -d $script_dir ]; then
