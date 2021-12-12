@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 
 #title|ssm
-#version|0.4
+#version|0.4.2
 #author|NovaKe1n
 #info|Shell Script Manager 
 
 
-
-# Global variables
-version=0.4.1
-
+# version
+# grabs it from the top of the file
+version="$(grep -m 1 '#version' $0 | cut -d'|' -f2)"
 
 
 # script absolute path
@@ -70,7 +69,10 @@ helpme ()
 # description.
 script_list ()
 {
-	# Iterate each script located into the binaries folder and get:
+	# Flag for no match found
+	return_code=1
+	
+    # Iterate each script located into the binaries folder and get:
 	#  - script name
 	#  - file type
 	#  - description
@@ -80,14 +82,20 @@ script_list ()
     #           |
     #       This one
 
-	for file in $script_dir/*; do
-        # Script name
-		printf "%-15s | " "$(basename $file)"
-        # File type
-		printf "%-7s | " "$(awk -F'/' 'NR==1 {print $NF}' $file | sed 's/env //')"
-        # Description
-		printf "%s\n" "$(grep -m 1 '#info' $file | cut -d'|' -f2)"
+	for file in $script_dir/*; do 
+        if [ "$(grep -s -m 1 '#!' $file)" ]; then
+            # Script name
+            printf "%-15s | " "$(basename $file)"
+            # File type
+            printf "%-7s | " "$(awk -F'/' 'NR==1 {print $NF}' $file | sed 's/env //')"
+            # Description
+            printf "%s\n" "$(grep -m 1 '#info' $file | cut -d'|' -f2)"
+            return_code=0
+        fi
 	done; echo;
+	
+    # Check flag's status for errors
+	[ "$return_code" -eq 1 ] && printf "[error] no script found\n" && exit 1
 
 	exit 0
 }
@@ -98,7 +106,7 @@ script_list ()
 # and output every match found.
 script_search() 
 {
-	# Flag for no match found
+	# Flag for no match foundV
 	return_code=1
 
 	# Argument check in case no keyword has been given by the user.
