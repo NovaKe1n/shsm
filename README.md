@@ -9,7 +9,7 @@ If you want to specify a different directory than for your scripts
 just modify the variable ```script_dir``` inside ssm.
 
 
-### How-to organize your scripts
+### How to organize your scripts
 
 If you wish ssm to keep track of your scripts you can insert this template
 at the top of each files:
@@ -23,6 +23,9 @@ at the top of each files:
 #info|This is a test
 
 ```
+
+ssm will check if each file in the directory has ```#!`` at the beginning
+and if none is found will skip to the next one.
 
 
 ### Usage
