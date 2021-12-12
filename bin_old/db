@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+#title|db
+#version|0.5-b1
+#author|0ero1ne
+#info|manage the database for file indexing
+
+# TODO
+# - give the user more option
+# EOT
+
+if [[ -f /var/db/locate.database ]]; then
+	printf "Database: /var/db/locate.database\n"
+	printf "Updating database\n"
+	sudo /usr/libexec/locate.updatedb
+else
+	printf "Database not found!\n"
+	printf "Do you want to build one? [y,n]: "
+	read choice
+
+	case choice in
+		y)
+			sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist 
+			printf "Updating database new database (may take a while)\n"
+			sudo /usr/libexec/locate.updatedb
+		;;
+		n) exit 0 ;;
+	esac
+fi

@@ -63,7 +63,7 @@ script_list ()
 	
 	for file in $script_dir/*; do
 		printf "%-15s | " "$(basename $file)"
-		printf "%-8s | " "$(awk -F'/' 'NR==1 {print $NF}' $file)"
+		printf "%-10s | " "$(awk -F'/' 'NR==1 {print $NF}' $file)"
 		printf "%s\n" "$(egrep -m 1 '#info' $file | cut -d'|' -f2)"
 	done; echo;
 
@@ -85,9 +85,9 @@ script_search()
 	# Iterate each script located into the binaries folder.
 
 	for file in $script_dir/*; do
-		if [ "$(egrep -m 1 '#info' $file | egrep $1)" ]; then
+		if [ "$(egrep -m 1 '#info' $file | egrep -i $1)" ]; then
 			printf "[%s]\n" "$(basename $file)"
-			printf "  %s\n" "$(egrep -m 1 '#info' $file | egrep $1 | awk -F'|' '{print $2}')" 
+			printf "  %s\n" "$(egrep -m 1 '#info' $file | egrep -i $1 | awk -F'|' '{print $2}')" 
 
 			# Whenever finds a match set the flag
 			return_code=0
