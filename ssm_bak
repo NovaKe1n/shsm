@@ -48,7 +48,7 @@ helpme ()
 
   -l, --list                list all scripts
   -s, --search <keyword>    search script using a keyword
-  -i, --info [-a all]       script info
+  -i, --info                view script info
   -h, --help                print this help
   -v, --version             current version
 
@@ -79,7 +79,7 @@ script_list ()
         # File type
 		printf "%-7s | " "$(awk -F'/' 'NR==1 {print $NF}' $file | sed 's/env //')"
         # Description
-		printf "%s\n" "$(grep -m 1 '#info' $file | cut -d'|' -f2)"
+		printf "%s\n" "$(egrep -m 1 '#info' $file | cut -d'|' -f2)"
 	done; echo;
 
 	exit 0
@@ -98,11 +98,11 @@ script_search()
 	[ -z "$1" ] && printf "[error] missing search parameter\n" && exit 1
 
 	# Iterate each script located into the binaries folder.
-    # grep search for #info tag ignore case-sensitive
+    # egrep search for #info tag ignore case-sensitive
 	for file in $script_dir/*; do
-		if [ "$(grep -s -m 1 '#info' $file | grep -i $1)" ]; then
+		if [ "$(egrep -s -m 1 '#info' $file | egrep -i $1)" ]; then
 			printf "[%s]\n" "$(basename $file)"
-			printf "  %s\n\n" "$(grep -m 1 '#info' $file | grep -i $1 | awk -F'|' '{print $2}')" 
+			printf "  %s\n" "$(egrep -m 1 '#info' $file | egrep $1 | awk -F'|' '{print $2}')" 
 
 			# Whenever finds a match set the flag
 			return_code=0
@@ -124,21 +124,10 @@ script_info ()
 	# check argument
 	[ -z "$1" ] && printf "[error] missing script name\n\n" && exit 1
 
-    # if the argument is '-a' then list all files informations
-    if [ "$1" == "-a" ]; then
-        for x in $script_dir/*; do
-            printf "%15s | %s\n" "title" "$(grep -m 1 '#title' $x | cut -d'|' -f2)"
-            printf "%15s | %s\n" "version" "$(grep -m 1 '#version' $x | cut -d'|' -f2)"
-            printf "%15s | %s\n" "author" "$(grep -m 1 '#author' $x | cut -d'|' -f2)"
-            printf "%15s | %s\n" "info" "$(grep -m 1 '#info' $x | cut -d'|' -f2)"
-            printf "\n"
-        done
-    fi
-
 	# check if file exist and is regular
 	[ ! -f "$script_dir/${1}" ] && printf "[error] file not found\n\n" && exit 1
 
-	# grep check for the first value and if finds it will ouput
+	# egrep check for the first value and if finds it will ouput
 	# if no patterns are found will return blank
 	printf "%15s | %s\n" "title" "$(grep -m 1 '#title' $script_dir/${1} | cut -d'|' -f2)"
 	printf "%15s | %s\n" "version" "$(grep -m 1 '#version' $script_dir/${1} | cut -d'|' -f2)"
