@@ -6,9 +6,6 @@
 #info|Shell Script Manager 
 
 
-# TODO
-#   - 
-
 
 # Global variables
 version=0.4.1
@@ -17,11 +14,14 @@ version=0.4.1
 
 # Script's absolute path
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/dotfiles"
+
 # Check if the path exist
 if [ ! -d $script_dir ]; then
-    printf "[error]: path not valid\n"
+    printf "[error]: path not valid!\n"
+    printf " [info]: change the variable \"script_dir\" to fix the problem\n"
     exit 1
 fi
+
 
 
 # Header will print the name of the script and its version
